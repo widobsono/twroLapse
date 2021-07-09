@@ -1,4 +1,4 @@
-#from picamera import PiCamera
+from picamera import PiCamera
 import errno
 import os
 import sys
