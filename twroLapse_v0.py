@@ -30,19 +30,19 @@ def set_camera_options(camera):
     res = eval(resolution)
     if res:
         camera.resolution = (
-            res['width'],
-            res['height']
+            int(res['width']),
+            int(res['height'])
         )
 
     # Set ISO.
     iso = config.get('Camera', 'iso')
     if iso:
-        camera.iso = iso
+        camera.iso = int(iso)
 
     # Set shutter speed.
     shutter_millis = config.get('Camera', 'shutter_speed_milis')
     if shutter_millis:
-        camera.shutter_speed = shutter_millis
+        camera.shutter_speed = int(shutter_millis)
         # Sleep to allow the shutter speed to take effect correctly.
         sleep(1)
         camera.exposure_mode = 'off'
@@ -53,14 +53,14 @@ def set_camera_options(camera):
     if white_balance:
         camera.awb_mode = 'off'
         camera.awb_gains = (
-            awb['red_gain'],
-            awb['blue_gain']
+            int(awb['red_gain']),
+            int(awb['blue_gain'])
         )
 
     # Set camera rotation
     rotation = config.get('Camera', 'rotation')
     if config['rotation']:
-        camera.rotation = rotation
+        camera.rotation = int(rotation)
 
     return camera
 
