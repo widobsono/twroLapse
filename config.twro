@@ -1,0 +1,37 @@
+#Configuration File to set parameters and scheduling
+#Format updated: 9 July 2021
+
+[Camera]
+#Dalam waktu millis detik * 1000
+shutter_speed_milis   = 500000
+iso                   = 800
+white_balance         =
+#white_balance         = {"red_gain": 1.3, "blue_gain": 1.75}
+rotation              = 0
+resolution            = {"height": 720, "width": 1080}
+#resolution            = {"height": 1080, "width": 1920}
+
+
+[Schedule]
+enable_night_pm = True
+npm_start = 15:50
+npm_end = 16:10
+#Interval Between Capture in seconds
+npm_interval = 15
+
+enable_night_am = True
+nam_start = 00:01
+nam_end = 06:00
+#Interval Between Capture in seconds
+nam_interval = 300
+
+enable_day = False
+d_start = 06:01
+d_end = 17:59
+#Interval Between Capture in seconds
+d_interval = 300
+
+
+[Storage]
+master_dir    =
+create_video  = False
