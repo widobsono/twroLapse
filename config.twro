@@ -5,9 +5,9 @@
 #Dalam waktu millis detik * 1000
 shutter_speed_milis   = 500000
 iso                   = 800
-white_balance         =
-#white_balance         = {"red_gain": 1.3, "blue_gain": 1.75}
-rotation              = 0
+white_balance         = None
+#white_balance         = {"red_gain": 0, "blue_gain": 0}
+rotation              = 180
 resolution            = {"height": 720, "width": 1080}
 #resolution            = {"height": 1080, "width": 1920}
 
@@ -15,9 +15,9 @@ resolution            = {"height": 720, "width": 1080}
 [Schedule]
 enable_night_pm = True
 npm_start = 15:50
-npm_end = 16:10
+npm_end = 18:30
 #Interval Between Capture in seconds
-npm_interval = 15
+npm_interval = 45
 
 enable_night_am = True
 nam_start = 00:01

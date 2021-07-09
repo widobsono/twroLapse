@@ -49,8 +49,8 @@ def set_camera_options(camera):
 
     # Set white balance.
     white_balance = config.get('Camera', 'white_balance')
-    awb = eval(white_balance)
-    if white_balance:
+    if (white_balance != 'None'):
+	awb = eval(white_balance)
         camera.awb_mode = 'off'
         camera.awb_gains = (
             int(awb['red_gain']),
@@ -59,7 +59,7 @@ def set_camera_options(camera):
 
     # Set camera rotation
     rotation = config.get('Camera', 'rotation')
-    if config['rotation']:
+    if rotation:
         camera.rotation = int(rotation)
 
     return camera
@@ -110,6 +110,7 @@ def capture_image():
         print(img_fname)
         camera.capture(data_dir + img_fname)
         camera.close()
+#	camera.stop_preview()
 
         # if (image_number < (config['total_images'] - 1)):
         #     image_number += 1
