@@ -4,10 +4,15 @@ Simple Raspberry camera timelapse, using piCamera. With special scheduling and f
 
 The python script will take some images and then convert it to `.mp4` using `ffmpeg`.
 
+#### Run on Startup
+Copy the `twrolapse.service` file into the `Systemd` unit file location: `sudo cp twrolapse.service /etc/systemd/system/twrolapse.service`
+
+Reload the Systemd daemon (`sudo systemctl daemon-reload`) to load in the new unit file. To Run on Boot `sudo systemctl enable twrolapse`
+
 
 #### TODO List
 - [x] `2021/07/09` Initial test, taking pictures and convert to `.mp4`
-- [ ] Auto-Run on Startup using `systemctl service` and tidy up scheduling
+- [x] Auto-Run on Startup using `systemctl service` and tidy up scheduling
 - [ ] Saving log-files
 - [ ] Build callibration script (Dark, Flat and Bias)
 - [ ] Auto-sync with cloud Storage
