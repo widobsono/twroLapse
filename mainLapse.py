@@ -74,7 +74,7 @@ def masterDir():
     return data_dir
 
 #Video Settings
-video_B = config.get('Storage', 'create_video')
+video_B = config.get('Storage', 'enable_video')
 video_T = eval(config.get('Storage', 'create_video_time'))
 video_latch = 0
 print("Create Video:", video_B)
