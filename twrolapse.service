@@ -1,0 +1,16 @@
+[Unit]
+Description=Start the TwRO Timelapse script.
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python /home/pi/twroLapse/mainLapse.py
+RemainAfterExit=true
+ExecStop=/usr/bin/pkill -f mainLapse.py
+StandardOutput=journal
+StandardError=journal
+User=pi
+Group=pi
+
+[Install]
+WantedBy=multi-user.target
