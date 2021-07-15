@@ -32,10 +32,12 @@ day_e = config.get('Schedule', 'day_end')
 npm_inv = int(config.get('Schedule', 'npm_interval'))
 nam_inv = int(config.get('Schedule', 'nam_interval'))
 day_inv = int(config.get('Schedule', 'day_interval'))
+rst_inv = int(config.get('Schedule', 'rst_interval')) * 3600 #hours to seconds
 
 prev_npm = 0
 prev_nam = 0
 prev_day = 0
+prev_rst = 0
 
 npm_B = config.get('Schedule', 'enable_night_pm')
 nam_B = config.get('Schedule', 'enable_night_am')
@@ -84,10 +86,22 @@ while True:
     #epoch for interval
     #timer Boolean
 
-    if (startup_dir < 1) or ( (ct_dir_latch < 1) and (daymin_now_val()==time2daymin_val(ct_dir["t1"])) ):
+    #Function to reset latching variable
+    if ( (epoch2000 - prev_rst) > rst_inv ):
+        prev_rst = epoch2000
+        video_latch = 0
+        ct_dir_latch = 0
+
+    if (startup_dir < 1):
         data_dir = masterDir()
-        ct_dir_latch = 3
         startup_dir = 5
+        ct_dir_latch = 3
+
+    if (ct_dir_latch < 1):
+        for key, value in ct_dir.items():
+            if ( (daymin_now_val()==time2daymin_val(value)) ):
+                data_dir = masterDir()
+                ct_dir_latch = 3
 
     epoch2000 = (datetime.now() - datetime(2000, 1, 1)).total_seconds()
     bool_npm = ( (daymin_now_val()>time2daymin_val(npm_s)) and (daymin_now_val()<time2daymin_val(npm_e)) )
@@ -119,13 +133,11 @@ while True:
             tL.capture_image(data_dir,'DAY')
         #End Day camera
 
-    if ( (video_B == 'True') and (video_latch < 1) and (daymin_now_val()==time2daymin_val(video_T["t1"])) ):
-        output = '/videoLapse'+datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.mp4'
-        vM.makeVideo(data_dir,'/image*.jpg',data_dir,output)
-        video_latch = 5
+    if ( (video_B == 'True') and (video_latch < 1) ):
+        for key, value in video_T.items():
+            if (daymin_now_val()==time2daymin_val(value)):
+                output = '/videoLapse'+datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.mp4'
+                vM.makeVideo(data_dir,'/image*.jpg',data_dir,output)
+                video_latch = 5
 
-    # print('npm:', bool_npm, npm_B)
-    # print('day:', bool_day, day_B)
-    # print('nam:', bool_nam, nam_B)
     sleep(0.5)
-#print(time2daymin(npm_s))
