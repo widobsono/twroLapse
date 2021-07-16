@@ -106,7 +106,7 @@ def capture_image(data_dir,time):
         # picture is taken.
         # Start up the camera.
         camera = PiCamera()
-        if (time == 'NPM') or  (time == 'NAM'):
+        if (time == 'NPM') or (time == 'NAM'):
             set_camera_options(camera)
         if time == 'DAY':
             set_camera_options_day(camera)

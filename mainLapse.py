@@ -85,6 +85,11 @@ print("Create Video:", video_B)
 while True:
     #epoch for interval
     #timer Boolean
+    epoch2000 = (datetime.now() - datetime(2000, 1, 1)).total_seconds()
+    bool_npm = ( (daymin_now_val()>time2daymin_val(npm_s)) and (daymin_now_val()<time2daymin_val(npm_e)) )
+    bool_nam = ( (daymin_now_val()>time2daymin_val(nam_s)) and (daymin_now_val()<time2daymin_val(nam_e)) )
+    bool_day = ( (daymin_now_val()>time2daymin_val(day_s)) and (daymin_now_val()<time2daymin_val(day_e)) )
+    #Timer Boolean END
 
     #Function to reset latching variable
     if ( (epoch2000 - prev_rst) > rst_inv ):
@@ -102,12 +107,6 @@ while True:
             if ( (daymin_now_val()==time2daymin_val(value)) ):
                 data_dir = masterDir()
                 ct_dir_latch = 3
-
-    epoch2000 = (datetime.now() - datetime(2000, 1, 1)).total_seconds()
-    bool_npm = ( (daymin_now_val()>time2daymin_val(npm_s)) and (daymin_now_val()<time2daymin_val(npm_e)) )
-    bool_nam = ( (daymin_now_val()>time2daymin_val(nam_s)) and (daymin_now_val()<time2daymin_val(nam_e)) )
-    bool_day = ( (daymin_now_val()>time2daymin_val(day_s)) and (daymin_now_val()<time2daymin_val(day_e)) )
-    #Timer Boolean END
 
     if ((npm_B == 'True') and (bool_npm)):
         #Calling Night Camera
