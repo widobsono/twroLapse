@@ -6,6 +6,7 @@ import threading
 from datetime import datetime
 from time import sleep
 import configparser
+from fractions import Fraction
 
 dir = sys.path[0]
 config_path = os.path.join(sys.path[0], "twro.config")
