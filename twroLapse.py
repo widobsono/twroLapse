@@ -27,12 +27,12 @@ def set_camera_options(camera):
 
     # Set ISO.
     iso = config.get('Camera', 'iso')
-    if iso:
+    if (iso > 10):
         camera.iso = int(iso)
 
     # Set shutter speed.
     shutter_millis = config.get('Camera', 'shutter_speed_milis')
-    if shutter_millis:
+    if (shutter_millis > 10):
         camera.shutter_speed = int(shutter_millis)
         # Sleep to allow the shutter speed to take effect correctly.
         sleep(1)
@@ -67,13 +67,13 @@ def set_camera_options_day(camera):
 
     # Set ISO.
     iso = config.get('Camera', 'iso')
-    if iso:
+    if (iso > 10):
         #camera.iso = int(iso)
         camera.iso = 0
 
     # Set shutter speed.
     shutter_millis = config.get('Camera', 'shutter_speed_milis')
-    if shutter_millis:
+    if (shutter_millis > 10):
         #camera.shutter_speed = int(shutter_millis)
         camera.shutter_speed = 0
         # Sleep to allow the shutter speed to take effect correctly.
@@ -105,17 +105,28 @@ def capture_image(data_dir,time):
         # Set a timer to take another picture at the proper interval after this
         # picture is taken.
         # Start up the camera.
-        camera = PiCamera()
-        if (time == 'NPM') or (time == 'NAM'):
-            set_camera_options(camera)
-        if time == 'DAY':
-            set_camera_options_day(camera)
 
-        # Capture a picture.
-        img_fname = '/image'+datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.jpg'
-        print(img_fname)
-        camera.capture(data_dir + img_fname)
-        camera.close()
+        if (time == 'NPM') or (time == 'NAM'):
+            camera = PiCamera(framerate=Fraction(1, 6),
+                                sensor_mode=3)
+            set_camera_options(camera)
+            sleep(2)
+            # Capture a picture.
+            img_fname = '/image'+datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.jpg'
+            print(img_fname)
+            camera.capture(data_dir + img_fname)
+            camera.close()
+        if time == 'DAY':
+            cameraD = PiCamera(framerate=Fraction(1, 6),
+                                sensor_mode=3)
+            set_camera_options_day(cameraD)
+            sleep(2)
+            img_fname = '/image'+datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.jpg'
+            print(img_fname)
+            cameraD.capture(data_dir + img_fname)
+            cameraD.close()
+
+
 #	camera.stop_preview()
 
         # if (image_number < (config['total_images'] - 1)):
