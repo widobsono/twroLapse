@@ -15,89 +15,7 @@ config.read(config_path)
 image_number=0
 
 #Setting Up camera options
-
-def set_camera_options(camera):
-    # Set camera resolution.
-    resolution = config.get('Camera', 'resolution')
-    res = eval(resolution)
-    if res:
-        camera.resolution = (
-            int(res['width']),
-            int(res['height'])
-        )
-
-    # Set ISO.
-    iso = config.get('Camera', 'iso')
-    if (iso > 10):
-        camera.iso = int(iso)
-
-    # Set shutter speed.
-    shutter_millis = config.get('Camera', 'shutter_speed_milis')
-    if (shutter_millis > 10):
-        camera.shutter_speed = int(shutter_millis)
-        # Sleep to allow the shutter speed to take effect correctly.
-        sleep(1)
-        camera.exposure_mode = 'off'
-
-    # Set white balance.
-    white_balance = config.get('Camera', 'white_balance')
-    if (white_balance != 'None'):
-	awb = eval(white_balance)
-        camera.awb_mode = 'off'
-        camera.awb_gains = (
-            int(awb['red_gain']),
-            int(awb['blue_gain'])
-        )
-
-    # Set camera rotation
-    rotation = config.get('Camera', 'rotation')
-    if rotation:
-        camera.rotation = int(rotation)
-
-    return camera
-
-def set_camera_options_day(camera):
-    # Set camera resolution.
-    resolution = config.get('Camera', 'resolution')
-    res = eval(resolution)
-    if res:
-        camera.resolution = (
-            int(res['width']),
-            int(res['height'])
-        )
-
-    # Set ISO.
-    iso = config.get('Camera', 'iso')
-    if (iso > 10):
-        #camera.iso = int(iso)
-        camera.iso = 0
-
-    # Set shutter speed.
-    shutter_millis = config.get('Camera', 'shutter_speed_milis')
-    if (shutter_millis > 10):
-        #camera.shutter_speed = int(shutter_millis)
-        camera.shutter_speed = 0
-        # Sleep to allow the shutter speed to take effect correctly.
-        sleep(1)
-        camera.exposure_mode = 'off'
-
-    # Set white balance.
-    white_balance = config.get('Camera', 'white_balance')
-    if (white_balance != 'None'):
-        awb = eval(white_balance)
-        camera.awb_mode = 'off'
-        camera.awb_gains = (
-            int(awb['red_gain']),
-            int(awb['blue_gain'])
-        )
-
-    # Set camera rotation
-    rotation = config.get('Camera', 'rotation')
-    if rotation:
-        camera.rotation = int(rotation)
-
-    return camera
-
+#on progress
 
 def capture_image(data_dir,time):
     try:
@@ -108,24 +26,35 @@ def capture_image(data_dir,time):
         # Start up the camera.
 
         if (time == 'NPM') or (time == 'NAM'):
-            camera = PiCamera(framerate=Fraction(1, 6),
-                                sensor_mode=3)
-            set_camera_options(camera)
-            sleep(2)
-            # Capture a picture.
+            #Capture a picture.
+            shutter_millis = int(config.get('Camera', 'shutter_speed_milis'))
+            rotation = int(config.get('Camera', 'rotation'))
+            resolution = config.get('Camera', 'resolution')
+            res = eval(resolution)
+            wd = int(res['width'])
+            hd = int(res['height'])
+            iso = int(config.get('Camera', 'iso'))
             img_fname = '/image'+datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.jpg'
             print(img_fname)
-            camera.capture(data_dir + img_fname)
-            camera.close()
+            save_img  = data_dir + img_fname
+            cmd = 'raspistill -t 10 -bm -ex off -ISO {} -ag 1 -ss {} -st -o {} -w {} -h {} -rot {}'.format(iso,shutter_millis ,save_img,wd,hd,rotation)
+            print(cmd)
+            os.system(cmd)
+
         if time == 'DAY':
-            cameraD = PiCamera(framerate=Fraction(1, 6),
-                                sensor_mode=3)
-            set_camera_options_day(cameraD)
-            sleep(2)
+            shutter_day = int(config.get('Camera', 'shutter_speed_milis_day'))
+            rotation = int(config.get('Camera', 'rotation'))
+            resolution = config.get('Camera', 'resolution')
+            res = eval(resolution)
+            wd = int(res['width'])
+            hd = int(res['height'])
+            iso = int(config.get('Camera', 'iso'))
             img_fname = '/image'+datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.jpg'
+            save_img  = data_dir + img_fname
             print(img_fname)
-            cameraD.capture(data_dir + img_fname)
-            cameraD.close()
+            cmd = 'raspistill -t 10 -bm -ex off -ISO {} -ag 1 -ss {} -st -o {} -w {} -h {} -rot {}'.format(iso,shutter_day ,save_img,wd,hd,rotation)
+            print(cmd)
+            os.system(cmd)
 
 
 #	camera.stop_preview()
