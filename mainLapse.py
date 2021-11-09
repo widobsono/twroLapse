@@ -61,12 +61,19 @@ data_dir = 0
 startup_dir = 0
 print(ct_dir["t1"])
 def masterDir():
-    # Create directory based on current timestamp.
-    data_dir = os.path.join(
-        sys.path[0],
+
+    if (master_dir == 'None'):
+        # Create directory based on current timestamp.
+        data_dir = os.path.join(
+            sys.path[0],
+            str(master_dir) +'data-' + datetime.now().strftime('%Y-%m-%d')
+            #str(master_dir) +'series-' + datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        )
+
+    if (master_dir != 'None'):
+        data_dir = os.path.join(
         str(master_dir) +'data-' + datetime.now().strftime('%Y-%m-%d')
-        #str(master_dir) +'series-' + datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-    )
+        )
 
     # Create directory with current time stamp
     dirManagement.create_timestamped_dir(data_dir)

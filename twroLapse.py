@@ -34,7 +34,7 @@ def capture_image(data_dir,time):
             wd = int(res['width'])
             hd = int(res['height'])
             iso = int(config.get('Camera', 'iso'))
-            img_fname = '/image'+datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.jpg'
+            img_fname = '/imageNIGHT'+datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.jpg'
             print(img_fname)
             save_img  = data_dir + img_fname
             cmd = 'raspistill -t 10 -bm -ex off -ISO {} -ag 1 -ss {} -st -o {} -w {} -h {} -rot {}'.format(iso,shutter_millis ,save_img,wd,hd,rotation)
@@ -49,7 +49,7 @@ def capture_image(data_dir,time):
             wd = int(res['width'])
             hd = int(res['height'])
             iso = int(config.get('Camera', 'iso'))
-            img_fname = '/image'+datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.jpg'
+            img_fname = '/imageDAY'+datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.jpg'
             save_img  = data_dir + img_fname
             print(img_fname)
             cmd = 'raspistill -t 10 -bm -ex off -ISO {} -ag 1 -ss {} -st -o {} -w {} -h {} -rot {}'.format(iso,shutter_day ,save_img,wd,hd,rotation)

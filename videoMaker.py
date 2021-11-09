@@ -1,4 +1,5 @@
 #ffmpeg -framerate 8 -pattern_type glob -i '2021*.jpg' -c:v libx264 -r 15 -pix_fmt yuv420p output.mp4
+#ffmpeg -framerate 8 -pattern_type glob -i 'image*.jpg' -c:v libx264 -r 15 -pix_fmt yuv420p 'nightLapse.mp4'
 
 import errno
 import os
